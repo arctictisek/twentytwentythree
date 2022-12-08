@@ -7,6 +7,7 @@ import twentytwentytwo.day4.Day4
 import twentytwentytwo.day5.Day5
 import twentytwentytwo.day6.Day6
 import twentytwentytwo.day7.Day7
+import twentytwentytwo.day8.Day8
 
 fun main() {
     println("Day 1")
@@ -23,4 +24,6 @@ fun main() {
     Day6().run()
     println("Day 7")
     Day7().run()
+    println("Day8")
+    Day8().run()
 }
