@@ -14,7 +14,7 @@ class Day10 {
         computeCyclesAndRegister("day10.txt")
             .filter { listOf(20, 60, 100, 140, 180, 220).contains(it.first) }
             .sumOf { it.first * it.second }
-    
+
     private fun step2(): String = computeCyclesAndRegister("day10.txt")
         .chunked(40)
         .joinToString(separator = "\n") {
