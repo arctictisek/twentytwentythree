@@ -3,6 +3,7 @@ package twentytwentytwo
 import twentytwentytwo.day1.Day1
 import twentytwentytwo.day10.Day10
 import twentytwentytwo.day11.Day11
+import twentytwentytwo.day12.Day12
 import twentytwentytwo.day2.Day2
 import twentytwentytwo.day3.Day3
 import twentytwentytwo.day4.Day4
@@ -35,4 +36,6 @@ fun main() {
     Day10().run()
     println("Day11")
     Day11().run()
+    println("Day12")
+    Day12().run()
 }
