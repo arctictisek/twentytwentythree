@@ -5,7 +5,11 @@ import twentytwentytwo.day10.Day10
 import twentytwentytwo.day11.Day11
 import twentytwentytwo.day12.Day12
 import twentytwentytwo.day13.Day13
+import twentytwentytwo.day14.Day14
+import twentytwentytwo.day16.Day16
 import twentytwentytwo.day2.Day2
+import twentytwentytwo.day20.Day20
+import twentytwentytwo.day21.Day21
 import twentytwentytwo.day3.Day3
 import twentytwentytwo.day4.Day4
 import twentytwentytwo.day5.Day5
@@ -41,4 +45,12 @@ fun main() {
 //    Day12().run()
     println("Day13")
     Day13().run()
+//    println("Day14")
+//    Day14().run()
+//    println("Day16")
+//    Day16().run()
+    println("Day20")
+    Day20().run()
+    println("Day21")
+    Day21().run()
 }
