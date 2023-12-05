@@ -1,12 +1,15 @@
 package twentytwentythree.day5
 
 import readFile
+import kotlin.coroutines.CoroutineContext
 
 class Day5 {
     fun run() {
         val input = readFile("2023-day5.txt")
         val system = parse(input)
-        system.minLocation().let { println(it) }
+//        system.minLocation().let { println(it) }
+//        system.seedsRanges().forEach { println(it) }
+        system.seedsRanges().minOf { system.mapRangeToMinLocation(it) }.let { println(it) }
         //331445006
     }
 
@@ -36,8 +39,7 @@ data class Range(
         val sourceStart: Long,
         val length: Long
 ) {
-    infix fun containsSource(source: Long) =
-            (sourceStart until sourceStart + length).contains(source)
+    infix fun containsSource(source: Long) = sourceStart <= source && source < sourceStart + length
 }
 
 data class System(
@@ -59,10 +61,10 @@ data class System(
 
     private fun mapToLocation(seed: Long): Long {
         println("Seed $seed")
-        val soil = getDestinationForSource(seed, seedToSoil).also { println("Soil: $it") }
-        val fertilizer = getDestinationForSource(soil, soilToFertilizer).also { println("Fertilize: $it") }
-        val water = getDestinationForSource(fertilizer, fertilizerToWater).also { println("Water: $it") }
-        val light = getDestinationForSource(water, waterToLight).also { println("Light: $it") }
+        val soil = getDestinationForSource(seed, seedToSoil)//.also { println("Soil: $it") }
+        val fertilizer = getDestinationForSource(soil, soilToFertilizer)//.also { println("Fertilize: $it") }
+        val water = getDestinationForSource(fertilizer, fertilizerToWater)//.also { println("Water: $it") }
+        val light = getDestinationForSource(water, waterToLight)//.also { println("Light: $it") }
         val temperature = getDestinationForSource(light, lightToTemperature).also { println("Temperature: $it") }
         val humidity = getDestinationForSource(temperature, temperatureToHumidity).also { println("Humidity: $it") }
         return getDestinationForSource(humidity, humidityToLocation).also { println("Location: $it") }
@@ -76,5 +78,5 @@ data class System(
 
     fun minLocation() = mapAllSeedsToLocations().min()
 
-    fun seedsRanges() = seeds.zipWithNext()
+    fun seedsRanges() = seeds.chunked(2).map { it[0] to it[1] }
 }
