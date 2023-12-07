@@ -1,9 +1,9 @@
 package twentytwentythree
 
-import twentytwentythree.day6.Day6
+import twentytwentythree.day7.Day7
 
 
 fun main() {
-    println("Day 6")
-    Day6().run()
+    println("Day 7")
+    Day7().run()
 }
