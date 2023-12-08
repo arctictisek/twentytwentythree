@@ -24,7 +24,7 @@ private fun Char.toCardInt(): Int {
             'J' -> 11
             'Q' -> 12
             'K' -> 13
-            'A' -> 1
+            'A' -> 14
             else -> -1
         }
     } else if (this == 'T') 10
@@ -83,6 +83,13 @@ data class Game(
     }
 
     private fun tieBreak(other: Game): Int {
+        val cardInts = this.hand.map { it.toCardInt() }
+        val otherCardInts = other.hand.map { it.toCardInt() }
+        (0 until 5).forEach { if (cardInts[it] != otherCardInts[it]) return cardInts[it].compareTo(otherCardInts[it]) }
+        return 0
+    }
+
+    private fun realTieBreak(other: Game): Int {
         if (rankHand() == Rank.FIVE) {
             return this.hand[0].toCardInt().compareTo(other.hand[0].toCardInt())
         } else if (rankHand() == Rank.FOUR) {
