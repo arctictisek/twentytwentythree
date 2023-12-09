@@ -15,7 +15,7 @@ class Day9 {
         var curPosHead = 0 to 0
         var curPosTail = 0 to 0
         val visited = mutableSetOf<Pair<Int, Int>>()
-        val moves = readFile("day9Simple.txt")
+        val moves = readFile("day9Simple.txt", 2022)
             .map { it.split(' ').zipWithNext().single() }
             .map { it.first to (0 until it.second.toInt()) }
             .flatMap { stringAndRange -> stringAndRange.second.map { stringAndRange.first } }
@@ -91,7 +91,7 @@ class Day9 {
     private fun step2(): Int {
         var curPosHead: Pair<Int, Int>
         var curPosTail: Pair<Int, Int>
-        var moves = readFile("day9med.txt")
+        var moves = readFile("day9med.txt", 2022)
             .map { it.split(' ').zipWithNext().single() }
             .map { it.first to (0 until it.second.toInt()) }
             .flatMap { stringAndRange -> stringAndRange.second.map { stringAndRange.first } }

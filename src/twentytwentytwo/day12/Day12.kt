@@ -10,7 +10,7 @@ class Day12 {
     }
 
     private fun step1(): Long {
-        val i = readFile("day12.txt")
+        val i = readFile("day12.txt", 2022)
         val nodes =
             i.indices.flatMap { y -> i[y].indices.map { x -> Node(x, y, i[y][x], false, Long.MAX_VALUE) } }.toSet()
         nodes.single { i[it.y][it.x] == 'S' }
@@ -32,7 +32,7 @@ class Day12 {
         return destination.distance
     }
     private fun step2(): Long {
-        val i = readFile("day12.txt")
+        val i = readFile("day12.txt", 2022)
         val nodes =
             i.indices.flatMap { y -> i[y].indices.map { x -> Node(x, y, i[y][x], false, Long.MAX_VALUE) } }.toSet()
         val startingCandidates = nodes.filter { i[it.y][it.x].let { it == 'S' || it == 'a' } }

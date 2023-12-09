@@ -9,7 +9,7 @@ class Day2 {
     }
 
     private fun computeScore(): Int =
-        readFile("day2.txt").sumOf {
+        readFile("day2.txt", 2022).sumOf {
             RockPaperScissors.score(
                 RockPaperScissors.retrievePlayerMove(it[2]),
                 RockPaperScissors.retrieveOpponentMove(it[0])
@@ -17,7 +17,7 @@ class Day2 {
         }
 
     private fun stepTwo(): Int =
-        readFile("day2.txt").sumOf {
+        readFile("day2.txt", 2022).sumOf {
             RockPaperScissors.scoreStep2(
                 RockPaperScissors.retrieveOpponentMove(it[0]),
                 RockPaperScissors.retrievePlayerMove(it[2])

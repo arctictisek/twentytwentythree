@@ -51,7 +51,7 @@ class Day8 {
             .all { input.elementAt(it.first).elementAt(it.second) < input.elementAt(x).elementAt(y) }
 
     private fun parseInput(file: String): Collection<Collection<Int>> =
-        readFile(file).map { line -> line.map { it.digitToInt() } }.toList()
+        readFile(file, 2022).map { line -> line.map { it.digitToInt() } }.toList()
 
     private fun computeScenicScore(input: Collection<Collection<Int>>, coord: Pair<Int, Int>) =
         leftRange(input, coord.first, coord.second) *

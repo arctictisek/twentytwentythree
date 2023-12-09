@@ -9,7 +9,7 @@ class Day14 {
     }
 
     private fun step1(): Int {
-        val i = readFile("day14Simple.txt")
+        val i = readFile("day14Simple.txt", 2022)
             .map { it.split(" -> ") }
             .map { it.map { it.split(",").zipWithNext().single() } }
         return 0

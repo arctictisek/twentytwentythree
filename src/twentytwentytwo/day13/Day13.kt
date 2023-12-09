@@ -19,14 +19,14 @@ class Day13 {
             .sumOf { it.first }
 
     private fun createInputStep1(file: String) = jacksonObjectMapper().let { mapper ->
-        readFile(file)
+        readFile(file, 2022)
             .chunked(3)
             .map { it[0] to it[1] }
             .map { mapper.readValue<List<*>>(it.first) to mapper.readValue<List<*>>(it.second) }
     }
 
     private fun createInputStep2(file: String) = jacksonObjectMapper().let { mapper ->
-        ((readFile(file).filter { it.contains('[') }) + listOf("[[2]]", "[[6]]"))
+        ((readFile(file, 2022).filter { it.contains('[') }) + listOf("[[2]]", "[[6]]"))
             .map { mapper.readValue<List<*>>(it) }
     }
 

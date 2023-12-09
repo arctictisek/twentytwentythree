@@ -11,7 +11,7 @@ class Day1 {
     private fun maxFile(): Int {
         var max = 0
         var sum = 0
-        for (line in readFile("day1.txt")) {
+        for (line in readFile("day1.txt", 2022)) {
             if (line.isNotBlank()) {
                 sum += line.toInt()
             } else {
@@ -27,7 +27,7 @@ class Day1 {
     private fun topThree(): Int {
         val list = mutableListOf<Int>()
         var sum = 0
-        for (line in readFile("day1.txt")) {
+        for (line in readFile("day1.txt", 2022)) {
             if (line.isNotBlank()) {
                 sum += line.toInt()
             } else {

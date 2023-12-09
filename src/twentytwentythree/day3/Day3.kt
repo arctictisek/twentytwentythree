@@ -5,7 +5,7 @@ import kotlin.math.abs
 
 class Day3 {
     fun run() {
-        val input = readFile("2023-day3.txt")
+        val input = readFile("day3.txt", 2023)
         part2(input)
     }
 
@@ -201,4 +201,3 @@ data class Square(
         val coordinates: Pair<Int, Int>,
         var doubleSurrounded: Boolean?
 )
-

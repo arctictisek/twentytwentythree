@@ -16,7 +16,7 @@ class Day4 {
         computeRangePairs()
             .count { pair -> pair.first.any { pair.second.contains(it) } || pair.second.any { pair.first.contains(it) } }
 
-    private fun computeRangePairs(): Sequence<Pair<IntRange, IntRange>> = readFile("day4.txt").asSequence()
+    private fun computeRangePairs(): Sequence<Pair<IntRange, IntRange>> = readFile("day4.txt", 2022).asSequence()
         .map { """(\d+)\-(\d+),(\d+)\-(\d+)""".toRegex().find(it)!!.groupValues }
         .map { it.drop(1) }
         .map { currentLine -> currentLine.map { it.toInt() } }

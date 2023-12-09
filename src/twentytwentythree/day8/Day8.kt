@@ -5,21 +5,11 @@ import kotlin.math.max
 
 class Day8 {
     fun run() {
-        val input = readFile("2023-day8.txt")
+        val input = readFile("day8.txt", 2023)
         val network = parse(input)
         println(network.followPath())
-        network.nodes.keys.filter { it[2] == 'A' }
-                .map { network.followPathWithStartingNodeAndStopsWhenTrailingZ(it).second }
-                .let { println(lcm(it)) }
+        println(network.followPathFromAtoZ())
     }
-
-    private fun lcm(numbers: List<Long>): Long =
-            numbers.reduce { acc, l ->
-                (max(acc, l)).let { larger ->
-                    generateSequence(larger) { it + larger }.dropWhile { it % acc != 0L || it % l != 0L }.first()
-                }
-            }
-
 
     private fun parse(input: List<String>): Network =
             Network(input[0], input.drop(2).associate {
@@ -29,37 +19,37 @@ class Day8 {
             })
 }
 
-
 data class Network(
         val instructions: String,
         val nodes: Map<String, Choice>
 ) {
-    fun followPath(): Long {
-        var curNode = "AAA"
-        var curStep = 0L
-        while (curNode != "ZZZ") {
-            curNode = nodes[curNode]!!.choose(instructions.modGet(curStep))
-            ++curStep
-        }
-        return curStep
-    }
+    fun followPath() =
+        generateSequence("AAA" to 0L) { nodes[it.first]!!.choose(instructions.modGet(it.second)) to it.second + 1 }
+            .first { "ZZZ" == it.first }
+            .second
 
-    fun followPathWithStartingNodeAndStopsWhenTrailingZ(startingNode: String): Pair<String, Long> {
-        var curNode = startingNode
-        var curStep = 0L
-        while (curNode[2] != 'Z') {
-            curNode = nodes[curNode]!!.choose(instructions.modGet(curStep))
-            ++curStep
-        }
-        return curNode to curStep
-    }
+    fun followPathFromAtoZ(): Long = nodes.keys.filter { it[2] == 'A' }
+        .map { followPathWithStartingNodeAndStopsWhenTrailingZ(it) }
+        .map { it.second }
+        .let { lcm(it) }
+
+    private fun followPathWithStartingNodeAndStopsWhenTrailingZ(startingNode: String) =
+        generateSequence(startingNode to 0L) { nodes[it.first]!!.choose(instructions.modGet(it.second)) to it.second + 1 }
+            .first { 'Z' == it.first[2] }
 }
 
 data class Choice(
         val left: String,
         val right: String
 ) {
-    fun choose(c: Char) = if ('L' == c) left else right
+    fun choose(c: Char) = if (c == 'L') left else right
 }
 
 fun String.modGet(n: Long): Char = this[((n % this.length).toInt())]
+
+private fun lcm(numbers: List<Long>): Long =
+    numbers.reduce { acc, l ->
+        (max(acc, l)).let { larger ->
+            generateSequence(larger) { it + larger }.dropWhile { it % acc != 0L || it % l != 0L }.first()
+        }
+    }

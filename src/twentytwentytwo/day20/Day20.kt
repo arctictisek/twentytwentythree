@@ -9,7 +9,7 @@ class Day20 {
     }
 
     private fun step1(): Int {
-        val input = readFile("day20.txt").map { it.toInt() }
+        val input = readFile("day20.txt", 2022).map { it.toInt() }
         val toWork = input.toMutableList()
         input.forEach {
             if (it != 0) {

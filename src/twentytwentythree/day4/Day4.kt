@@ -5,7 +5,7 @@ import kotlin.math.pow
 
 class Day4 {
     fun run() {
-        val input = readFile("2023-day4.txt")
+        val input = readFile("day4.txt", 2023)
         val draws = parse(input)
         draws.map { iterateOnCard(it, draws) }.sumOf { it.count() }
                 .let { println(it + draws.size) }

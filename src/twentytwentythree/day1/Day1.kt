@@ -4,7 +4,7 @@ import readFile
 
 class Day1 {
     fun run() {
-        val input = readFile("2023-day1Simple.txt")
+        val input = readFile("day1Simple.txt", 2023)
         println(sumFirstAndLast(input))
         println(transformInput(input))
     }

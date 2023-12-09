@@ -24,7 +24,7 @@ class Day10 {
     private fun computeCyclesAndRegister(file: String): List<Pair<Int, Int>> {
         var cycles = 0
         var register = 1
-        return readFile(file)
+        return readFile(file, 2022)
             .map { it.split(' ') }
             .map { it + if (it[0] == "noop") listOf("0") else listOf() }
             .map { it.zipWithNext().single() }

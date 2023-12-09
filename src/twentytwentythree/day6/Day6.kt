@@ -4,7 +4,7 @@ import readFile
 
 class Day6 {
     fun run() {
-        val input = readFile("2023-day6.txt")
+        val input = readFile("day6.txt", 2023)
         parse(input).map { it.waysToBeatRecords() }
                 .reduce { acc, i -> acc * i }
                 .also { println(it) }

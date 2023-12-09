@@ -27,7 +27,7 @@ class Day7 {
     private fun parseInput(filename: String): Directory {
         val root = Directory(null, "/", mutableListOf(), mutableListOf())
         var currentDirectory = root
-        for (line in readFile(filename).drop(1)) {
+        for (line in readFile(filename, 2022).drop(1)) {
             if (isCommand(line)) {
                 currentDirectory = handleCommand(line, currentDirectory)
             } else {

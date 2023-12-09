@@ -9,7 +9,7 @@ class Day21 {
     }
 
     private fun step1(): Long {
-        val input = readFile("day21.txt")
+        val input = readFile("day21.txt", 2022)
             .map { """(....): (.*)""".toRegex().find(it)!!.groupValues }
             .map { it.drop(1) }
             .map { it.zipWithNext().single() }
@@ -42,7 +42,7 @@ class Day21 {
         }
 
     private fun step2():Long {
-        val input = readFile("day21.txt")
+        val input = readFile("day21.txt", 2022)
             .map { """(....): (.*)""".toRegex().find(it)!!.groupValues }
             .map { it.drop(1) }
             .map { it.zipWithNext().single() }

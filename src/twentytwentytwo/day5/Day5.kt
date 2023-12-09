@@ -28,7 +28,7 @@ class Day5 {
     }
 
     private fun initStacksAndMoves(fileName: String): Pair<List<ArrayDeque<String>>, List<List<Int>>> {
-        val lines = readFile(fileName)
+        val lines = readFile(fileName, 2022)
         val stacks = ((1..lines.dropWhile { it.contains('[') }[0].last().digitToInt()).map { _ -> ArrayDeque<String>() }).toList()
         lines.takeWhile { it.contains('[') }.toList().reversed().forEach { line ->
             stacks.forEachIndexed { index, strings ->

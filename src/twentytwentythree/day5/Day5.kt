@@ -5,7 +5,7 @@ import kotlin.system.measureTimeMillis
 
 class Day5 {
     fun run() {
-        val input = readFile("2023-day5.txt")
+        val input = readFile("day5.txt", 2023)
         val system = parse(input)
         system.minLocation().let { println(it) }
         val timeInMillis = measureTimeMillis {

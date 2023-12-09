@@ -31,7 +31,7 @@ class Day16 {
     private fun step2(): Int = 0
 
 
-    private fun readInput(file: String) = readFile(file)
+    private fun readInput(file: String) = readFile(file, 2022)
         .map {
             """Valve (..) has flow rate=(\d+); tunnels? leads? to valves? (.*)""".toRegex()
                 .find(it)!!

@@ -9,7 +9,7 @@ class Day3 {
     }
 
     private fun step1(): Int {
-        return readFile("day3.txt")
+        return readFile("day3.txt", 2022)
             .asSequence()
             .filter { it.isNotBlank() }
             .map { Pair(it.substring(0, it.length / 2), it.substring(it.length / 2)) }
@@ -20,7 +20,7 @@ class Day3 {
     }
 
     private fun step2(): Int {
-        return readFile("day3.txt")
+        return readFile("day3.txt", 2022)
             .asSequence()
             .chunked(3)
             .filter { 3 == it.size }

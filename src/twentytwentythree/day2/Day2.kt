@@ -4,7 +4,7 @@ import readFile
 
 class Day2 {
     fun run() {
-        val input = readFile("2023-day2.txt")
+        val input = readFile("day2.txt", 2023)
         val games = parse(input)
         println(games.filter { testIfGamePossible(it) }.sumOf { it.id })
         games.map { findMaxNumberOfAllColoursForGame(it) }.sumOf { it.reduce { acc, i -> acc * i } }

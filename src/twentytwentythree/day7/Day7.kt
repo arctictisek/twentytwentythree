@@ -4,7 +4,7 @@ import readFile
 
 class Day7 {
     fun run() {
-        val input = readFile("2023-day7.txt")
+        val input = readFile("day7.txt", 2023)
         val games = parse(input)
         games.sorted().also { it.forEach { println(it.hand.toList().joinToString("")) } }.mapIndexed { index, game -> game.bid * (index + 1) }.sum().let { println(it) }
     }

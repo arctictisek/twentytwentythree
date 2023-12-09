@@ -9,7 +9,7 @@ class Day11 {
     }
 
     private fun parseInput(file: String) =
-        readFile(file)
+        readFile(file, 2022)
             .chunked(7)
             .map {
                 Monkey(

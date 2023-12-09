@@ -9,7 +9,7 @@ class CreateInput {
 
     private val mapper = jacksonObjectMapper()
 
-    fun createInput(file: String) = readFile(file)
+    fun createInput(file: String) = readFile(file, 2022)
         .chunked(3)
         .map { it[0] to it[1] }
         .map { mapper.readValue<List<*>>(it.first) to mapper.readValue<List<*>>(it.second) }
