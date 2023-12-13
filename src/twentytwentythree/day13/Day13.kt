@@ -1,38 +1,41 @@
 package twentytwentythree.day13
 
 import readFileToString
+import kotlin.math.min
 
 class Day13 {
     fun run() {
-//        val input = readFileToString("day13.txt", 2023)
-        val input = """
-            #.##..##.
-            ..#.##.#.
-            ##......#
-            ##......#
-            ..#.##.#.
-            ..##..##.
-            #.#.##.#.
-        """.trimIndent()
+        val input = readFileToString("day13.txt", 2023)
         val patterns = input.split("\n\n")
-                .map { it.split("\n") }
-        println(cols(patterns[0]))
+                .map { it.split("\n").filter { it.isNotBlank() } }
+
+        patterns.map { computeNotes(it) }.sum().let { println(it) }
+
     }
-    private fun String.safeGet(n: Int) =
-        if (n < length) this[n] else '%'
-    private fun List<String>.safeGet(n: Int) = if (n < this.size) this[n] 
-    private fun String.symmetricalOver(n: Int) =
-        (1..<n).all { this.safeGet(n - it) == this.safeGet(n + it - 1) }
 
-    private fun cols(pattern: List<String>): Int = (2..<pattern[0].length).first { symmetryIndex ->
-        pattern.all { it.symmetricalOver(symmetryIndex) }
-    } - 1
+    private fun generateStringHorizontal(base: String, i: Int): Pair<Int, String> {
+        val minOtlOtr = min(i, base.length - i)
+        return i to base.substring(i - minOtlOtr, i + minOtlOtr)
+    }
 
-    private fun rows(pattern: List<String>) =
-        (2..<pattern.size).first {
-            symmetricalOverI(pattern, it)
-        } - 1
+    private fun findFoldingPatterns(pattern: String): Set<Int> =
+        (1..<pattern.length).map { generateStringHorizontal(pattern, it) }
+                .map { it.second.substring(0, it.second.length / 2) to it.second.substring(it.second.length / 2) to it.first }
+                .filter { it.first.first == it.first.second.reversed() }
+                .map { it.second }
+                .toSet()
 
-    private fun symmetricalOverI(pattern: List<String>, i: Int) =
-        (1..<i).all { pattern[i - it] == pattern[i + it - 1] }
+    private fun findAllFoldingPatternsV(patterns: List<String>): Set<Int> = patterns.map { findFoldingPatterns(it) }
+            .reduce { acc, ints -> acc.intersect(ints) }
+
+    private fun transpose(strings: List<String>): List<String> = (0..<strings[0].length).map { curIndex ->
+        strings.map { it[curIndex] }.joinToString("")
+    }
+
+    private fun computeNotes(pattern: List<String>): Int {
+        findAllFoldingPatternsV(pattern).let { horizontal ->
+            if (horizontal.isNotEmpty()) return horizontal.first()
+            else return 100 * findAllFoldingPatternsV(transpose(pattern)).first()
+        }
+    }
 }
