@@ -4,9 +4,12 @@ import readFile
 
 class Day12 {
     fun run() {
-        val input = readFile("day12.txt", 2023)
+        val input = readFile("day12Simple.txt", 2023)
         val rows = parse(input)
-        rows.sumOf { it.countPossibleArrangements() }.let { println(it) }
+//        rows.sumOf { it.countPossibleArrangements() }.let { println(it) }
+        val newRows = rows.map { it.expandFiveTimes() }
+//        newRows.forEach { println(it) }
+        newRows.sumOf { it.countPossibleArrangements() }.let { println(it) }
     }
 
     private fun parse(input: List<String>): List<Row> =
@@ -23,13 +26,6 @@ class Day12 {
                         Row(springs, layout)
                     }.toList()
 
-
-    private fun String.numberOfDamagedSprings() =
-            this
-                    .onEach { if (!setOf('?', '#', '.').contains(it)) throw IllegalArgumentException() }
-                    .count { it == '#' }
-
-
 }
 
 
@@ -40,6 +36,7 @@ data class Row(
     fun countPossibleArrangements() =
             springs.generateCombinations()
                     .count { it.clearRowToLayout() == damagedLayout }
+                    .also { println("$springs -> $it") }
 
     private fun String.generateCombinations(): List<String> {
         val result = mutableListOf<String>()
@@ -65,9 +62,18 @@ data class Row(
         return result
     }
 
-    private fun String.clearRowToLayout() =
-            this.split('.')
-                    .filter { it != "" }
-                    .onEach { if (it.contains('?')) throw IllegalArgumentException() }
-                    .map { it.length }
+    fun expandFiveTimes() =
+            Row(
+                    generateSequence { springs }.take(5)
+                            .joinToString("?"),
+                    generateSequence { damagedLayout }.take(5)
+                            .flatten()
+                            .toList())
 }
+
+private fun String.clearRowToLayout() =
+        this.split('.')
+                .filter { it != "" }
+                .onEach { if (it.contains('?')) throw IllegalArgumentException() }
+                .map { it.length }
+
