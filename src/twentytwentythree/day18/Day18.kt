@@ -1,18 +1,30 @@
 package twentytwentythree.day18
 
 import readFile
+import kotlin.math.max
+import kotlin.math.min
 
 class Day18 {
     fun run() {
-        val input = readFile("day18.txt", 2023)
+        val input = readFile("day18Simple.txt", 2023)
         val lines = parse(input)
         val result = lines.fold(listOf(Coordinates(0, 0))) { acc, currentLine ->
             acc + addPathForLine(currentLine, acc.last())
         }
-        val pointIn = findPointInside(result)
-        val improved = colourAround(listOf(pointIn) + result, pointIn)
+//        val newResult = lines.scan(Line(0 to 0, 0 to 0, Direction.VERTICAL)) { acc, currentLine ->
+//            addLine(currentLine, acc.end)
+//        }
+        val newResult = lines.scan(listOf(Line(0 to 0, 0 to 0, Direction.VERTICAL))) { acc, currentLine ->
+            listOf(addLine(currentLine, acc.last().end))
+        }.flatten()
+        render(result)
+        println()
+        newResult.renderLineList()
+        val x = 0
+//        val pointIn = findPointInside(result)
+//        val improved = colourAround(listOf(pointIn) + result, pointIn)
 //        render(improved)
-        println(improved.distinct().size)
+//        println(improved.distinct().size)
     }
 
     private fun parse(input: List<String>) =
@@ -29,6 +41,103 @@ class Day18 {
         } else { // 'U'
             (start.y - line.second..<start.y).reversed().map { y -> Coordinates(start.x, y) }
         }
+
+//    private fun addLine(line: Pair<Char, Int>, start: Coordinates): Line =
+//        when (line.first) {
+//            'R' -> Line(
+//                Coordinates(start.x + 1, start.y),
+//                Coordinates(start.x + line.second, start.y),
+//                Direction.HORIZONTAL
+//            )
+//
+//            'D' -> Line(
+//                Coordinates(start.x, start.y + 1),
+//                Coordinates(start.x, start.y + line.second),
+//                Direction.VERTICAL
+//            )
+//
+//            'L' -> Line(
+//                Coordinates(start.x - 1, start.y),
+//                Coordinates(start.x - line.second, start.y),
+//                Direction.HORIZONTAL
+//            )
+//
+//            'U' -> Line(
+//                Coordinates(start.x, start.y - 1),
+//                Coordinates(start.x, start.y - line.second),
+//                Direction.VERTICAL
+//            )
+//
+//            else -> Line(Coordinates(0, 0), Coordinates(0, 0), Direction.VERTICAL)
+//        }
+
+    private fun addLine(line: Pair<Char, Int>, start: Coordinates): Line =
+        when (line.first) {
+            'R' -> Line(
+                Coordinates(start.x + 1, start.y),
+                Coordinates(start.x + line.second, start.y),
+                Direction.HORIZONTAL
+            )
+
+            'D' -> Line(
+                Coordinates(start.x, start.y + 1),
+                Coordinates(start.x, start.y + line.second),
+                Direction.VERTICAL
+            )
+
+            'L' -> Line(
+                Coordinates(start.x - 1, start.y),
+                Coordinates(start.x - line.second, start.y),
+                Direction.HORIZONTAL
+            )
+
+            'U' -> Line(
+                Coordinates(start.x, start.y - 1),
+                Coordinates(start.x, start.y - line.second),
+                Direction.VERTICAL
+            )
+
+            else -> Line(Coordinates(0, 0), Coordinates(0, 0), Direction.VERTICAL)
+        }
+
+
+    private fun isPointOnALine(point: Coordinates, lines: List<Line>) =
+        lines.any {
+            (it.direction == Direction.VERTICAL && it.start.x == point.x && it.getYRange().contains(point.y)) ||
+                    (it.direction == Direction.HORIZONTAL && it.start.y == point.y && it.getXRange().contains(point.x))
+        }
+
+    private fun isPointInsideArea(point: Coordinates, lines: List<Line>) =
+        isPointOnALine(point, lines) ||
+                (lines.filter { it.direction == Direction.VERTICAL }
+                    .filter { it.start.x < point.x }
+                    .count { it.getYRange().contains(point.y) } % 2 == 1 &&
+                        lines.filter { it.direction == Direction.VERTICAL }
+                            .filter { it.start.x > point.x }
+                            .count { it.getYRange().contains(point.y) } % 2 == 1 &&
+                        lines.filter { it.direction == Direction.HORIZONTAL }
+                            .filter { it.start.y < point.y }
+                            .count { it.getXRange().contains(point.x) } % 2 == 1 &&
+                        lines.filter { it.direction == Direction.HORIZONTAL }
+                            .filter { it.start.y > point.y }
+                            .count { it.getXRange().contains(point.x) } % 2 == 1)
+
+    private fun List<Line>.minXY() =
+        this.minOf { min(it.start.x, it.end.x) } to this.minOf { min(it.start.y, it.end.y) }
+
+    private fun List<Line>.maxXY() =
+        this.maxOf { max(it.start.x, it.end.x) } to this.maxOf { max(it.start.y, it.end.y) }
+
+    private fun List<Line>.renderLineList() {
+        val minXY = minXY()
+        val maxXY = maxXY()
+        (minXY.second..maxXY.second).forEach { y ->
+            (minXY.first..maxXY.first).forEach { x ->
+                if (isPointInsideArea(Coordinates(x, y), this)) print('#') else print('.')
+            }
+            println()
+        }
+    }
 
     private fun render(points: List<Coordinates>) {
         (points.minOf { it.y } to points.maxOf { it.y }).let { (minY, maxY) ->
@@ -86,3 +195,21 @@ data class Coordinates(
     val x: Int,
     val y: Int
 )
+
+data class Line(
+    val start: Coordinates,
+    val end: Coordinates,
+    val direction: Direction
+) {
+    constructor(start: Pair<Int, Int>, end: Pair<Int, Int>, direction: Direction) :
+            this(Coordinates(start.first, start.second), Coordinates(end.first, end.second), direction)
+
+    fun getXRange() = getRange(start.x, end.x)
+    fun getYRange() = getRange(start.y, end.y)
+}
+
+enum class Direction {
+    HORIZONTAL, VERTICAL
+}
+
+private fun getRange(i: Int, j: Int) = if (i < j) (i..j) else (j..i)
