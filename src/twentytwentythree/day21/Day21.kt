@@ -43,8 +43,8 @@ class Day21 {
     private fun takeNsteps(garden: List<Square>, start: Square, steps: Int, maxX: Int, maxY: Int) =
         generateSequence(setOf(start)) {
             val s= takeOneStep(garden, it)
-            render(garden, maxX, maxY, start.x to start.y, it)
-            println("~~~")
+//            render(garden, maxX, maxY, start.x to start.y, it)
+//            println("~~~")
             s
         }.take(steps + 1).last()
 }
