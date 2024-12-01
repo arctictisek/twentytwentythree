@@ -7,3 +7,5 @@ fun readFileToString(name: String, year: Int): String = File("src/inputs/V$year"
 
 fun String.safeGetLetter(i: Int): String =
     try { this[i].toString().filter { it.isLetter() } } catch (e: Exception) { "" }
+
+fun Any.p() = println(this)
