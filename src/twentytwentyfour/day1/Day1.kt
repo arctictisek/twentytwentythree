@@ -12,12 +12,10 @@ class Day1 {
         getTotalSimilarityScore(lists).p()
     }
 
-    private fun getSortedLists(input: List<String>): Pair<List<Int>, List<Int>> {
-        val pairs = input.map { it.split("   ").zipWithNext().first() }
-        val left = pairs.map { it.first.toInt() }.sorted()
-        val right = pairs.map { it.second.toInt() }.sorted()
-        return left to right
-    }
+    private fun getSortedLists(input: List<String>) =
+        input.map { it.split("   ").map { it.toInt() }.zipWithNext().first() }.unzip().let {
+            it.first.sorted() to it.second.sorted()
+        }
 
     private fun getDistancesSum(lists: Pair<List<Int>, List<Int>>): Int {
         return (0..<lists.first.size).sumOf { abs(lists.first[it] - lists.second[it]) }
