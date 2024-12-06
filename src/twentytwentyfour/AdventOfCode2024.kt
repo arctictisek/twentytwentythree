@@ -1,7 +1,7 @@
 package twentytwentyfour
 
-import twentytwentyfour.day4.Day4
+import twentytwentyfour.day5.Day5
 
 fun main() {
-    Day4().run()
+    Day5().run()
 }
